@@ -1,12 +1,10 @@
-package com.example.recipekeeper.api.service;
+package com.example.recipekeeper.api;
 
-import com.example.recipekeeper.api.SearchRecipeFilter;
 import com.example.recipekeeper.api.domain.RecipeRequest;
 import com.example.recipekeeper.api.domain.SearchRecipeResponse;
-import com.example.recipekeeper.api.mapper.RecipeMapper;
 import com.example.recipekeeper.exception.RecipeNotFoundException;
+import com.example.recipekeeper.persistence.RecipeRepository;
 import com.example.recipekeeper.persistence.model.RecipeEntity;
-import com.example.recipekeeper.persistence.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,11 +31,11 @@ public class RecipeService {
         recipeRepository.deleteById(recipeId);
     }
 
-    public SearchRecipeResponse searchRecipes(SearchRecipeFilter filter) {
+    public SearchRecipeResponse searchRecipes(RecipeSearchFilter filter) {
         var recipes = recipeRepository.searchRecipes(
                 filter.getIsVegetarian(),
                 filter.getNumberOfServings(),
-                filter.getKeywords() != null ? "%" + filter.getKeywords() + "%" : null, // added to use properly with like clause
+                filter.getText(),
                 filter.getIncludedIngredients() != null ? filter.getIncludedIngredients() : List.of(),
                 filter.getIncludedIngredients() != null ? filter.getIncludedIngredients().size() : 0,
                 filter.getExcludedIngredients() != null ? filter.getExcludedIngredients() : List.of(),

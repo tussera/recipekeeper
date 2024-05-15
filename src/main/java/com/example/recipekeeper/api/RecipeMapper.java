@@ -1,4 +1,4 @@
-package com.example.recipekeeper.api.mapper;
+package com.example.recipekeeper.api;
 
 import com.example.recipekeeper.api.domain.Ingredient;
 import com.example.recipekeeper.api.domain.RecipeRequest;
@@ -6,6 +6,7 @@ import com.example.recipekeeper.persistence.model.IngredientEntity;
 import com.example.recipekeeper.persistence.model.RecipeEntity;
 import lombok.experimental.UtilityClass;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @UtilityClass
@@ -34,31 +35,14 @@ public class RecipeMapper {
         entity.getIngredients().forEach(ingredient -> ingredient.setRecipe(entity));
     }
 
-
     public static List<IngredientEntity> ingredientToEntity(List<Ingredient> ingredients) {
-        return ingredients.stream()
-                .map(ingredient -> IngredientEntity.builder()
-                        .name(ingredient.name())
-                        .build()
-                )
-                .toList();
-    }
-
-    public static RecipeRequest entityToRecipe(RecipeEntity recipeEntity) {
-        return RecipeRequest.builder()
-                .title(recipeEntity.getTitle())
-                .numberOfServings(recipeEntity.getNumberOfServings())
-                .isVegetarian(recipeEntity.isVegetarian())
-                .ingredients(entityToIngredientList(recipeEntity.getIngredients()))
-                .instructions(recipeEntity.getInstructions())
-                .build();
-    }
-
-    public static List<Ingredient> entityToIngredientList(List<IngredientEntity> ingredientEntity) {
-        return ingredientEntity.stream()
-                .map(ingredient -> Ingredient.builder()
-                        .name(ingredient.getName()).build()
-                )
-                .toList();
+        return new ArrayList<>(
+                ingredients.stream()
+                        .map(ingredient -> IngredientEntity.builder()
+                            .name(ingredient.name())
+                            .build()
+                        )
+                        .toList()
+        );
     }
 }

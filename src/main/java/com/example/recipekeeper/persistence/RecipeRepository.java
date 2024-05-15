@@ -1,4 +1,4 @@
-package com.example.recipekeeper.persistence.repository;
+package com.example.recipekeeper.persistence;
 
 import com.example.recipekeeper.persistence.model.RecipeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,7 +16,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
             FROM RecipeEntity rec
             WHERE (:isVegetarian IS NULL OR rec.isVegetarian = :isVegetarian)
               AND (:numberOfServings IS NULL OR rec.numberOfServings = :numberOfServings)
-              AND (:keywords IS NULL OR rec.instructions LIKE :keywords)
+              AND (:text IS NULL OR rec.instructions LIKE CONCAT("%", :text, "%"))
               AND (:includedIngredientsCount = 0 OR :includedIngredientsCount = (SELECT COUNT(*)
                                                                                  FROM RecipeEntity rec2
                                                                                  INNER JOIN rec2.ingredients ing2
@@ -33,10 +33,10 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     List<RecipeEntity> searchRecipes(
             Boolean isVegetarian,
             Integer numberOfServings,
-            String keywords,
+            String text,
             List<String> includedIngredients,
-            Integer includedIngredientsCount,
+            int includedIngredientsCount,
             List<String> excludedIngredients,
-            Integer excludedIngredientsCount
+            int excludedIngredientsCount
     );
 }

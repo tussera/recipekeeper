@@ -1,8 +1,7 @@
 package com.example.recipekeeper.api;
 
-import com.example.recipekeeper.api.mapper.RecipeMapper;
 import com.example.recipekeeper.fixtures.TestData;
-import com.example.recipekeeper.persistence.repository.RecipeRepository;
+import com.example.recipekeeper.persistence.RecipeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -211,15 +210,15 @@ class RecipeApiTest implements WithAssertions {
         }
 
         @Test
-        public void shouldReturnOnlyRecipesBasedOnInstructionsKeywords() throws Exception {
+        public void shouldReturnOnlyRecipesBasedOnInstructionsText() throws Exception {
             // given some test data
             insertTestData();
 
-            // only recipes with specific keywords in the instructions are returned
+            // only recipes with specific text in the instructions are returned
             mockMvc.perform(
                             get("/api/recipe")
                                     .contentType(MediaType.APPLICATION_JSON)
-                                    .param("keywords", "Put all together")
+                                    .param("text", "Put all together")
                     ).andDo(print()).andExpect(status().isOk())
                     .andExpect(jsonPath("$.recipes", hasSize(1)))
                     .andExpect(jsonPath("$.recipes[0].title", is("Creamy Broccoli Pasta")));
@@ -252,7 +251,7 @@ class RecipeApiTest implements WithAssertions {
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .param("isVegetarian", "false")
                                     .param("numberOfServings", "2")
-                                    .param("keywords", "magic")
+                                    .param("text", "magic")
                                     .param("includedIngredients", "potatoes")
                                     .param("excludedIngredients", "meat", "chicken")
                     ).andDo(print()).andExpect(status().isOk())

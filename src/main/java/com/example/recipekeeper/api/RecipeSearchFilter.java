@@ -2,6 +2,7 @@ package com.example.recipekeeper.api;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Null;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class SearchRecipeFilter {
+@AllArgsConstructor
+public class RecipeSearchFilter {
     @Null
     @Schema(description = "Indicate if the recipe is vegetarian")
     private Boolean isVegetarian;
@@ -28,5 +30,5 @@ public class SearchRecipeFilter {
 
     @Null
     @Schema(description = "Used in the instructions text search")
-    private String keywords;
+    private String text;
 }

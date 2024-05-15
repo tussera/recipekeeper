@@ -1,9 +1,7 @@
-package com.example.recipekeeper.api.resource;
+package com.example.recipekeeper.api;
 
-import com.example.recipekeeper.api.SearchRecipeFilter;
 import com.example.recipekeeper.api.domain.RecipeRequest;
 import com.example.recipekeeper.api.domain.SearchRecipeResponse;
-import com.example.recipekeeper.api.service.RecipeService;
 import com.example.recipekeeper.persistence.model.RecipeEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -60,7 +58,7 @@ public class RecipeController {
     @GetMapping()
     @Operation(description = "Search recipes using the available filters")
     public ResponseEntity<SearchRecipeResponse> searchRecipes(
-            @ParameterObject SearchRecipeFilter filter
+            @ParameterObject RecipeSearchFilter filter
     ) {
         var recipes = recipeService.searchRecipes(filter);
         log.debug("Recipes found -> " + recipes);
