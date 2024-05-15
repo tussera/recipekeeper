@@ -35,7 +35,7 @@ public class RecipeService {
         var recipes = recipeRepository.searchRecipes(
                 filter.getIsVegetarian(),
                 filter.getNumberOfServings(),
-                filter.getText(),
+                filter.getText() != null ? "%"+filter.getText()+"%" : null,
                 filter.getIncludedIngredients() != null ? filter.getIncludedIngredients() : List.of(),
                 filter.getIncludedIngredients() != null ? filter.getIncludedIngredients().size() : 0,
                 filter.getExcludedIngredients() != null ? filter.getExcludedIngredients() : List.of(),

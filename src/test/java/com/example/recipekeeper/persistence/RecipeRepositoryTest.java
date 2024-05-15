@@ -55,12 +55,12 @@ class RecipeRepositoryTest implements WithAssertions {
 
     @Test
     void shouldFindRecipesByTextInInstructions() {
-        var text = "magic";
+        var text = "%magic%";
         var recipeList = recipeRepository.searchRecipes(null, null, text, null, 0, null, 0);
         assertThat(recipeList).hasSize(1);
 
         var recipe = recipeList.getFirst();
-        assertThat(recipe.getInstructions()).contains(text);
+        assertThat(recipe.getInstructions()).contains("magic");
     }
 
     @Test
@@ -81,7 +81,7 @@ class RecipeRepositoryTest implements WithAssertions {
     void shouldFindRecipesUsingAvailableFilters() {
         var isVegetarian = true;
         var numberOfServings = 5;
-        var text = "together";
+        var text = "%together%";
         var includedIngredients = List.of("eggs");
         var excludedIngredients = List.of("potatoes");
         var recipeList = recipeRepository.searchRecipes(isVegetarian, numberOfServings, text, includedIngredients, includedIngredients.size(), excludedIngredients, excludedIngredients.size());
@@ -90,7 +90,7 @@ class RecipeRepositoryTest implements WithAssertions {
         var recipe = recipeList.getFirst();
         assertThat(recipe.isVegetarian()).isEqualTo(isVegetarian);
         assertThat(recipe.getNumberOfServings()).isEqualTo(numberOfServings);
-        assertThat(recipe.getInstructions()).contains(text);
+        assertThat(recipe.getInstructions()).contains("together");
 
         var ingredients = recipe.getIngredients().stream().map(IngredientEntity::getName).toList();
         assertThat(ingredients).containsAll(includedIngredients);

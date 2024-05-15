@@ -110,7 +110,7 @@ class RecipeServiceTest implements WithAssertions {
         var recipeEntity = RecipeMapper.recipeToEntity(TestData.createFishAndChips());
 
         when(recipeRepository.searchRecipes(
-                isVegetarian, numberOfServings, text, includedIngredients, 1, excludedIngredients, 1
+                isVegetarian, numberOfServings, "%"+text+"%", includedIngredients, 1, excludedIngredients, 1
         )).thenReturn(List.of(recipeEntity));
 
         // when

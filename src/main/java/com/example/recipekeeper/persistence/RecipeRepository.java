@@ -16,7 +16,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
             FROM RecipeEntity rec
             WHERE (:isVegetarian IS NULL OR rec.isVegetarian = :isVegetarian)
               AND (:numberOfServings IS NULL OR rec.numberOfServings = :numberOfServings)
-              AND (:text IS NULL OR rec.instructions LIKE CONCAT("%", :text, "%"))
+              AND (:text IS NULL OR rec.instructions LIKE :text)
               AND (:includedIngredientsCount = 0 OR :includedIngredientsCount = (SELECT COUNT(*)
                                                                                  FROM RecipeEntity rec2
                                                                                  INNER JOIN rec2.ingredients ing2
